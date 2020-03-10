@@ -1,4 +1,4 @@
-<p>study-management works!</p>
+<h2>Study Search</h2>
 <form class="example-form">
     <mat-form-field class="example-full-width">
         <mat-label>Study Description</mat-label>
@@ -19,15 +19,15 @@
 
     <mat-form-field class="example-full-width">
         <mat-label>Modalities</mat-label>
-        <mat-select  #foodValue  (selectionChange)="changeValue($event.value)">
-            <mat-option *ngFor="let food of Modalities" [value]="food.value" >
-                {{food.viewValue}}
+        <mat-select  #itemValue  (selectionChange)="changeValue($event.value)">
+            <mat-option *ngFor="let item of modal" [value]="item.value" >
+                {{item.viewValue}}
             </mat-option>
         </mat-select>
     </mat-form-field>
 
     <button id="searchButton"
-     name="searchButton" type="button" (click)="studySearch(false)">
+     name="searchButton" type="button" (click)="studySearch()">
     <i class="material-icons" matTooltip="Search">search</i>
   </button>
 
