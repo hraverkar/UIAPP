@@ -1,6 +1,13 @@
 import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
+import { universalService } from '../Services/universal.service';
+
+export interface DataModel{
+  studyId :string , studyInstanceId :string, studyName:string, studyDescription:string,
+    modalities:string, studySequence:string, studyDate:Date, studyComments:string, studySeries:string, studyInstances:string
+}
+
 
 @Component({
   selector: 'app-study-management',
@@ -10,53 +17,44 @@ import * as _ from 'lodash';
 
 export class StudyManagementComponent implements OnInit {
   public studyDes: "";
-  public studyName:"";
+  public studyName: "";
   public picker: any;
   public selectValue: string;
   public selectDate: Date;
   public dataSource: any;
   public Data: any;
   public jsonData: any;
+  public modal = new Array();
 
   displayedColumns: string[] = ['studyId', 'studyInstanceId', 'studyName', 'studyDescription',
     'modalities', 'studySequence', 'studyDate', 'studyComments', 'studySeries', 'studyInstances'];
 
-  restItemsUrl = 'http://10.242.76.17/Service/Service.svc/JSON/GetDataJson/';
-
   constructor(
     private cd: ChangeDetectorRef,
     private http: HttpClient,
+    private universalService: universalService,
   ) { }
 
   ngOnInit(): void {
     this.getRestItems();
   }
 
-  sendGetRequest() {
-    return this.http.get<any>(this.restItemsUrl);
-  }
 
   getRestItems(): void {
-    this.sendGetRequest().subscribe((data: any) => {
+    this.universalService.getAll().subscribe((data: any) => {
       let jsonData = JSON.parse(data);
-      this.jsonData = jsonData;
-      this.formateData();
+      if (jsonData.length === 0) {
+        
+      } else {
+        this.jsonData = jsonData;
+        this.formateData();
+      }
     });
   }
 
-  searchText() {
-    try {
-      this.studyDes = this.studyDes;
-    } catch (error) {
-      console.log(error + "Error on search");
-    }
-  }
-
-  
   formateData() {
     let numbers = new Array();
     for (let i = 0; i < this.jsonData.length; i++) {
-      
       numbers.push({
         studyId: this.jsonData[i]['Study Id'],
         studyInstanceId: this.jsonData[i]['Study Instance Id'],
@@ -74,8 +72,6 @@ export class StudyManagementComponent implements OnInit {
     this.getModalities();
   }
 
-  modal = new Array();
- 
   getModalities() {
     for (let i = 0; i < this.jsonData.length; i++) {
       this.modal.push({
@@ -92,47 +88,60 @@ export class StudyManagementComponent implements OnInit {
       this.studyName = '';
       this.selectValue = '';
       this.selectDate = null;
+      this.Data = null;
       this.cd.detectChanges();
     } catch (error) {
       console.table(error, 'clearSearch error , searchComponent', 'clearing search input values');
     }
   }
 
-  changeValue(value: any) {
+  changeDropDownValue(value: any) {
     this.selectValue = value;
   }
 
-  getDetails(des: string, name:string, selectVal:any) {
-    console.log(this.restItemsUrl + '?StudyDescription=' + des +'&Modalities='+selectVal +'&StudyName='+ name + '&StudyDate=');
-    return this.http.get<any>(this.restItemsUrl + '?StudyDescription=' + des +'&Modalities='+ selectVal +'&StudyName='+ name);
+  changeDateEvent(event: any) {
+    this.selectDate = event.value;
   }
 
-  getItemByParams(des:any, name:any, selectVal:any): void {
-    this.getDetails(des,name,selectVal).subscribe((data: any) => {
+  getItemByParams(des: any, name: any, selectVal: any): void {
+    this.universalService.getDetails(des, name, selectVal).subscribe((data: any) => {
       let jsonData = JSON.parse(data);
-      this.jsonData = jsonData;
-      this.formateData();
-    }); 
+      if (jsonData.length === 0) {
+
+      } else {
+        this.jsonData = jsonData;
+        this.formateData();
+      }
+    });
   }
 
   studySearch() {
-    try {      
-      if(this.studyDes === undefined){
-        this.studyDes ="";
+    try {
+      if (this.studyDes === undefined && this.studyName === undefined && this.selectValue === undefined && this.selectDate === undefined) {
+        this.studyDes = "";
+        this.studyName = "";
+        this.selectValue = "";
+        this.selectDate = null;
+        this.getItemByParams(this.studyDes, this.studyName, this.selectValue);
       }
-      if(this.studyName === undefined){
-        this.studyName ="";
+      else {
+        if (this.studyDes === undefined) {
+          this.studyDes = "";
+        }
+        if (this.studyName === undefined) {
+          this.studyName = "";
+        }
+        if (this.selectValue === undefined) {
+          this.selectValue = "";
+        }
+        this.getItemByParams(this.studyDes, this.studyName, this.selectValue);
       }
-      if(this.selectValue === undefined){
-        this.selectValue ="";
-      }
-      this.getItemByParams(this.studyDes,this.studyName,this.selectValue);
     } catch (error) {
       console.log(error, 'Search error , Study Component', 'searching using input values');
     }
   }
 
-  changeEvent(event: any) {
-    this.selectDate = event.value;
+  editBtn(){
+    console.log("You have been clicked");
   }
 }

@@ -16,6 +16,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { universalService } from './Services/universal.service';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -38,8 +40,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     HttpClientModule,
     MatTableModule,
     MatPaginatorModule,
+    MatRadioModule
   ],
-  providers: [],
+  providers: [universalService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
