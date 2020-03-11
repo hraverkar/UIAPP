@@ -15,7 +15,6 @@ import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
 import { universalService } from './Services/universal.service';
 import {MatRadioModule} from '@angular/material/radio';
 
@@ -39,7 +38,6 @@ import {MatRadioModule} from '@angular/material/radio';
     MatSelectModule,
     HttpClientModule,
     MatTableModule,
-    MatPaginatorModule,
     MatRadioModule
   ],
   providers: [universalService],

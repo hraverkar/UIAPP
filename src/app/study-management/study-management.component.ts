@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, ViewChild } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import * as _ from 'lodash';
 import { universalService } from '../Services/universal.service';
@@ -25,6 +25,7 @@ export class StudyManagementComponent implements OnInit {
   public Data: any;
   public jsonData: any;
   public modal = new Array();
+  
 
   displayedColumns: string[] = ['studyId', 'studyInstanceId', 'studyName', 'studyDescription',
     'modalities', 'studySequence', 'studyDate', 'studyComments', 'studySeries', 'studyInstances'];
@@ -54,7 +55,10 @@ export class StudyManagementComponent implements OnInit {
 
   formateData() {
     let numbers = new Array();
-    for (let i = 0; i < this.jsonData.length; i++) {
+    for (let i = 0; i < this.jsonData.length; i++) {    
+      var d = this.jsonData[i]['Study Date'];
+      let t =  d.split('(')[1].split(')')[0];
+      let date = new Date(parseInt(t)).toLocaleDateString()
       numbers.push({
         studyId: this.jsonData[i]['Study Id'],
         studyInstanceId: this.jsonData[i]['Study Instance Id'],
@@ -62,7 +66,7 @@ export class StudyManagementComponent implements OnInit {
         studyDescription: this.jsonData[i]['Study Description'],
         modalities: this.jsonData[i]['Modalities'],
         studySequence: this.jsonData[i]['Study Sequence'],
-        studyDate: this.jsonData[i]['Study Date'],
+        studyDate: date,
         studyComments: this.jsonData[i]['Study Comments'],
         studySeries: this.jsonData[i]['Study Series'],
         studyInstances: this.jsonData[i]['Study Instances']
