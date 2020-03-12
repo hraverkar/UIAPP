@@ -1,6 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { StudyManagementComponent } from './study-management/study-management.component';
@@ -16,7 +15,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
 import { universalService } from './Services/universal.service';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { UpdateManagementComponent } from './update-management/update-management.component';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @NgModule({
   declarations: [
@@ -24,6 +26,7 @@ import {MatRadioModule} from '@angular/material/radio';
     StudyManagementComponent,
     RisManagementComponent,
     PacsManagementComponent,
+    UpdateManagementComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,9 +41,19 @@ import {MatRadioModule} from '@angular/material/radio';
     MatSelectModule,
     HttpClientModule,
     MatTableModule,
-    MatRadioModule
+    MatRadioModule,
+    MatDialogModule,
   ],
-  providers: [universalService],
-  bootstrap: [AppComponent]
+  providers: [universalService,
+    {
+      provide: MatDialogRef,
+      useValue: {}
+    }, {
+      provide: MAT_DIALOG_DATA, 
+      useValue: {}
+    }
+  ],
+  bootstrap: [AppComponent],
+  entryComponents: [UpdateManagementComponent]
 })
 export class AppModule { }

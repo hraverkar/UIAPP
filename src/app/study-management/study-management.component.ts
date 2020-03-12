@@ -1,21 +1,20 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash';
 import { universalService } from '../Services/universal.service';
-
-export interface DataModel{
-  studyId :string , studyInstanceId :string, studyName:string, studyDescription:string,
-    modalities:string, studySequence:string, studyDate:Date, studyComments:string, studySeries:string, studyInstances:string
-}
-
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { UpdateManagementComponent } from '../update-management/update-management.component';
+import { DataModel } from './DataModel';
 
 @Component({
   selector: 'app-study-management',
   templateUrl: './study-management.component.html',
-  styleUrls: ['./study-management.component.css']
+  styleUrls: ['./study-management.component.css'],
+  encapsulation: ViewEncapsulation.None,
+  providers: [MatDialog]
 })
 
 export class StudyManagementComponent implements OnInit {
+  [x: string]: any;
   public studyDes: "";
   public studyName: "";
   public picker: any;
@@ -25,15 +24,17 @@ export class StudyManagementComponent implements OnInit {
   public Data: any;
   public jsonData: any;
   public modal = new Array();
+  selectedElement: DataModel;
   
 
-  displayedColumns: string[] = ['studyId', 'studyInstanceId', 'studyName', 'studyDescription',
+  displayedColumns: string[] = ['selected','studyId', 'studyInstanceId', 'studyName', 'studyDescription',
     'modalities', 'studySequence', 'studyDate', 'studyComments', 'studySeries', 'studyInstances'];
 
   constructor(
     private cd: ChangeDetectorRef,
-    private http: HttpClient,
     private universalService: universalService,
+    private dialog: MatDialog,
+    public dialogRef: MatDialogRef<UpdateManagementComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -54,11 +55,10 @@ export class StudyManagementComponent implements OnInit {
   }
 
   formateData() {
-    let numbers = new Array();
+    let numbers = new Array<DataModel>();
     for (let i = 0; i < this.jsonData.length; i++) {    
-      var d = this.jsonData[i]['Study Date'];
-      let t =  d.split('(')[1].split(')')[0];
-      let date = new Date(parseInt(t)).toLocaleDateString()
+      var d = this.jsonData[i]["Study Date"].slice(6,19);
+      let date = new Date(parseInt(d)).toLocaleDateString()
       numbers.push({
         studyId: this.jsonData[i]['Study Id'],
         studyInstanceId: this.jsonData[i]['Study Instance Id'],
@@ -148,4 +148,22 @@ export class StudyManagementComponent implements OnInit {
   editBtn(){
     console.log("You have been clicked");
   }
-}
+
+  radiobuttonClick(t:any){
+    console.log("Hello Harhal Raverkar" + t);
+  }
+
+  openEditDialog(): void {
+    let dialogRef = this.dialog.open(UpdateManagementComponent, {
+      width: '60%',
+      height: '60%',
+      data:this.selectedElement
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+      if (result !== undefined) {
+        //this.updateDetails();
+      }
+    });
+  }
+} 

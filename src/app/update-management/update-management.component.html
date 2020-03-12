@@ -1,0 +1,58 @@
+<h3>{{title}}</h3>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Id</mat-label>
+    <input matInput placeholder="Name" value="" [readonly]="true" [(ngModel)]="studyId">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Instance Id</mat-label>
+    <input matInput placeholder="Name" value="" [readonly]="true" [(ngModel)]="studyInstanceId">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Name</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="studyName">
+</mat-form-field>
+
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Description</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="studyDescription">
+</mat-form-field>
+
+
+<mat-form-field class="example-full-width">
+    <mat-label>Modalities</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="modalities">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Sequence</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="studySequence">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Date</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="studyDate">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Comments</mat-label>
+    <input matInput placeholder="Name" value="" [(ngModel)]="studyComments">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Series</mat-label>
+    <input matInput placeholder="Name" value="" [readonly]="true" [(ngModel)]="studySeries">
+</mat-form-field>
+
+<mat-form-field class="example-full-width">
+    <mat-label>Study Instances</mat-label>
+    <input matInput placeholder="Name" value="" [readonly]="true" [(ngModel)]="studyInstances">
+</mat-form-field>
+
+
+<button id="saveBtn" name="saveBtn" type="button" (click)="onDoneClick()">
+<i class="material-icons" matTooltip="Update">Update</i>
+</button>
