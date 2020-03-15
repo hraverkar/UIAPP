@@ -18,6 +18,7 @@ import { universalService } from './Services/universal.service';
 import { MatRadioModule } from '@angular/material/radio';
 import { UpdateManagementComponent } from './update-management/update-management.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @NgModule({
@@ -43,6 +44,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
     MatTableModule,
     MatRadioModule,
     MatDialogModule,
+    MatButtonModule
   ],
   providers: [universalService,
     {

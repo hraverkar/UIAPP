@@ -46,7 +46,7 @@ export class StudyManagementComponent implements OnInit {
     this.universalService.getAll().subscribe((data: any) => {
       let jsonData = JSON.parse(data);
       if (jsonData.length === 0) {
-        
+       console.log("hello harshal");
       } else {
         this.jsonData = jsonData;
         this.formateData();
@@ -111,7 +111,7 @@ export class StudyManagementComponent implements OnInit {
     this.universalService.getDetails(des, name, selectVal).subscribe((data: any) => {
       let jsonData = JSON.parse(data);
       if (jsonData.length === 0) {
-
+        console.table(jsonData);
       } else {
         this.jsonData = jsonData;
         this.formateData();

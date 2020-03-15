@@ -1,5 +1,7 @@
 <h3>{{title}}</h3>
 
+
+
 <mat-form-field class="example-full-width">
     <mat-label>Study Id</mat-label>
     <input matInput placeholder="Name" value="" [readonly]="true" [(ngModel)]="studyId">
@@ -13,6 +15,7 @@
 <mat-form-field class="example-full-width">
     <mat-label>Study Name</mat-label>
     <input matInput placeholder="Name" value="" [(ngModel)]="studyName">
+    <mat-icon matSuffix>mode_edit</mat-icon>
 </mat-form-field>
 
 
@@ -53,6 +56,5 @@
 </mat-form-field>
 
 
-<button id="saveBtn" name="saveBtn" type="button" (click)="onDoneClick()">
-<i class="material-icons" matTooltip="Update">Update</i>
-</button>
+<button mat-raised-button color="primary" (click)="onDoneClick()" matTooltip="Update">Update</button>
+<button mat-raised-button color="primary" (click)="onCancelClick()" matTooltip="Cancel">Cancel</button>

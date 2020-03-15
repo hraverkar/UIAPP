@@ -26,14 +26,12 @@
         </mat-select>
     </mat-form-field>
 
-    <button id="searchButton"
-     name="searchButton" type="button" (click)="studySearch()">
-    <i class="material-icons" matTooltip="Search">search</i>
+    <button mat-raised-button color="primary" (click)="studySearch()"
+     matTooltip="Search">Search
   </button>
 
-    <button type="button" id="clearBtn"
-     name="clearBtn" (click)="clearSearch()">
-    <i class="material-icons" matTooltip="Clear">clear</i>
+    <button mat-raised-button color="primary" (click)="clearSearch()"  matTooltip="Clear">
+    Clear
   </button>
 </form>
 <!-- <div style="height: 450px; overflow: auto;">
@@ -133,7 +131,7 @@
 	</mat-radio-group>
 </div>
 
-<button id="editButton"
-name="editButton" type="button" (click)="openEditDialog()">
-<i class="material-icons" matTooltip="Edit">Edit</i>
+<button mat-raised-button color="warn" (click)="openEditDialog()" matTooltip="Edit">Edit
+</button>
+<button mat-raised-button color="warn" (click)="delete()" matTooltip="Delete Record">Delete
 </button>

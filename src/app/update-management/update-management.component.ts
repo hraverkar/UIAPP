@@ -43,4 +43,8 @@ export class UpdateManagementComponent {
     onDoneClick(): void {
       this.dialogRef.close({});
     }
+
+    onCancelClick():void{
+      this.dialogRef.close();
+    }
 }
