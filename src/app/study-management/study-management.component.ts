@@ -4,6 +4,7 @@ import { universalService } from '../Services/universal.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { UpdateManagementComponent } from '../update-management/update-management.component';
 import { DataModel } from './DataModel';
+import { AleartMessageComponent } from '../aleart-message/aleart-message.component';
 
 @Component({
   selector: 'app-study-management',
@@ -25,16 +26,17 @@ export class StudyManagementComponent implements OnInit {
   public jsonData: any;
   public modal = new Array();
   selectedElement: DataModel;
-  
+  msg: string = "Do you want to delete this record.?"
 
-  displayedColumns: string[] = ['selected','studyId', 'studyInstanceId', 'studyName', 'studyDescription',
+
+  displayedColumns: string[] = ['selected', 'studyId', 'studyInstanceId', 'studyName', 'studyDescription',
     'modalities', 'studySequence', 'studyDate', 'studyComments', 'studySeries', 'studyInstances'];
 
   constructor(
     private cd: ChangeDetectorRef,
     private universalService: universalService,
     private dialog: MatDialog,
-    public dialogRef: MatDialogRef<UpdateManagementComponent>,
+    public dialogRef: MatDialogRef<UpdateManagementComponent, AleartMessageComponent>,
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +48,7 @@ export class StudyManagementComponent implements OnInit {
     this.universalService.getAll().subscribe((data: any) => {
       let jsonData = JSON.parse(data);
       if (jsonData.length === 0) {
-       console.log("hello harshal");
+        console.log("hello harshal");
       } else {
         this.jsonData = jsonData;
         this.formateData();
@@ -56,8 +58,8 @@ export class StudyManagementComponent implements OnInit {
 
   formateData() {
     let numbers = new Array<DataModel>();
-    for (let i = 0; i < this.jsonData.length; i++) {    
-      var d = this.jsonData[i]["Study Date"].slice(6,19);
+    for (let i = 0; i < this.jsonData.length; i++) {
+      var d = this.jsonData[i]["Study Date"].slice(6, 19);
       let date = new Date(parseInt(d)).toLocaleDateString()
       numbers.push({
         studyId: this.jsonData[i]['Study Id'],
@@ -145,11 +147,11 @@ export class StudyManagementComponent implements OnInit {
     }
   }
 
-  editBtn(){
+  editBtn() {
     console.log("You have been clicked");
   }
 
-  radiobuttonClick(t:any){
+  radiobuttonClick(t: any) {
     console.log("Hello Harhal Raverkar" + t);
   }
 
@@ -157,13 +159,29 @@ export class StudyManagementComponent implements OnInit {
     let dialogRef = this.dialog.open(UpdateManagementComponent, {
       width: '60%',
       height: '60%',
-      data:this.selectedElement
+      data: this.selectedElement
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log(result);
-      if (result !== undefined) {
-        //this.updateDetails();
+      this.dialogRef.close();
+    });
+  }
+
+  onDeleteClick(): void {
+    let dialogRef = this.dialog.open(AleartMessageComponent, {
+      width: '25%',
+      height: '20%',
+      data: this.msg
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      if (result == "Yes") {
+        let data = this.selectedElement.studyId;
+        this.universalService.removeSelectData(data);
+        this.getRestItems();
+      } else {
+        return;
       }
     });
   }
-} 
+}

@@ -19,6 +19,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { UpdateManagementComponent } from './update-management/update-management.component';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { AleartMessageComponent } from './aleart-message/aleart-message.component';
 
 
 @NgModule({
@@ -28,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
     RisManagementComponent,
     PacsManagementComponent,
     UpdateManagementComponent,
+    AleartMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -44,7 +46,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatTableModule,
     MatRadioModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
   ],
   providers: [universalService,
     {
@@ -56,6 +58,6 @@ import { MatButtonModule } from '@angular/material/button';
     }
   ],
   bootstrap: [AppComponent],
-  entryComponents: [UpdateManagementComponent]
+  entryComponents: [UpdateManagementComponent,AleartMessageComponent]
 })
 export class AppModule { }

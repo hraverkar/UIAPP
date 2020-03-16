@@ -1,5 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { AleartMessageComponent } from '../aleart-message/aleart-message.component';
+import { universalService } from '../Services/universal.service';
+import { StudyManagementComponent } from '../study-management/study-management.component';
 
 @Component({
   selector: 'app-update-management',
@@ -21,7 +24,10 @@ export class UpdateManagementComponent {
 
   public message: any;
   constructor(
-    private dialogRef: MatDialogRef<UpdateManagementComponent>,
+    private dialogRef: MatDialogRef<UpdateManagementComponent, AleartMessageComponent>,
+    private universalService : universalService,
+    private StudyManagementComponent:StudyManagementComponent,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.message = data;
     this.showData(this.message);
@@ -39,12 +45,26 @@ export class UpdateManagementComponent {
     this.studySeries = message.studySeries;
     this.studyInstances = message.studyInstances;
   }
+  msg: string = "Do you want to update this record.?"
 
-    onDoneClick(): void {
-      this.dialogRef.close({});
-    }
-
-    onCancelClick():void{
-      this.dialogRef.close();
-    }
+  onDoneClick(): void {
+    let dialogRef = this.dialog.open(AleartMessageComponent, {
+      width: '25%',
+      height: '20%',
+      data: this.msg
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      result ={ result1: [this.studyId, this.studyInstanceId, this.studyName, this.studyDescription, this.modalities,
+        this.studySequence, this.studyDate, this.studyComments, this.studySeries, this.studyInstances], result2:"Yes"};
+      if (result.result2 == "Yes") {
+        this.universalService.updateDetails(result.result1);
+        this.StudyManagementComponent.getRestItems();
+      } else {
+        return;
+      }
+    });
+  }
+  onCancelClick(): void {
+    this.dialogRef.close();
+  }
 }
